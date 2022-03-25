@@ -43,6 +43,141 @@ var findMode = function (root) {
   return ans;
 };
 
+// 中序遍历，利用二叉搜索树的性质（左边小于或等于右边）
+// O(n)/O(n)
+// 76ms/47.2MB
+var findMode = function (root) {
+  let ans = [],
+    base = 0,
+    count = 0,
+    maxCount = 0;
+
+  const update = (x) => {
+    if (x === base) {
+      count += 1;
+    } else {
+      base = x;
+      count = 1;
+    }
+
+    if (count > maxCount) {
+      maxCount = count;
+      ans = [x];
+    } else if (count === maxCount) {
+      ans.push(x);
+    }
+  };
+
+  const dfs = (node) => {
+    if (!node) {
+      return;
+    }
+
+    dfs(node.left);
+    update(node.val);
+    dfs(node.right);
+  };
+  dfs(root);
+  return ans;
+};
+
+// Morries
+// O(n)/O(1)
+// 76ms/47MB
+var findMode = function (root) {
+  let ans = [],
+    base = 0,
+    count = 0,
+    maxCount = 0;
+  const update = (x) => {
+    if (x === base) {
+      count += 1;
+    } else {
+      base = x;
+      count = 1;
+    }
+
+    if (count > maxCount) {
+      maxCount = count;
+      ans = [x];
+    } else if (count === maxCount) {
+      ans.push(x);
+    }
+  };
+
+  const dfs = (root) => {
+    while (root) {
+      if (root.left) {
+        let temp = root.left;
+        while (temp.right && temp.right !== root) {
+          temp = temp.right;
+        }
+
+        if (temp.right == null) {
+          temp.right = root;
+          root = root.left;
+        } else {
+          update(root.val);
+          root = root.right;
+          temp.right = null;
+        }
+      } else {
+        update(root.val);
+        root = root.right;
+      }
+    }
+  };
+
+  dfs(root);
+  return ans;
+};
+
+var findMode = function (root) {
+  let ans = [],
+    base = 0,
+    count = 0,
+    maxCount = 0;
+  const update = (x) => {
+    if (x === base) {
+      count += 1;
+    } else {
+      base = x;
+      count = 1;
+    }
+
+    if (count > maxCount) {
+      maxCount = count;
+      ans = [x];
+    } else if (count === maxCount) {
+      ans.push(x);
+    }
+  };
+
+  while (root) {
+    if (root.left) {
+      let temp = root.left;
+      while (temp.right && temp.right !== root) {
+        temp = temp.right;
+      }
+
+      if (temp.right == null) {
+        temp.right = root;
+        root = root.left;
+      } else {
+        temp.right = null;
+        update(root.val);
+        root = root.right;
+        
+      }
+    } else {
+      update(root.val);
+      root = root.right;
+    }
+  }
+
+  return ans;
+};
+
 var root = creatNode([1, null, 2, 2]);
 console.log(findMode(root));
 
