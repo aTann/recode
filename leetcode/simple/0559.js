@@ -76,3 +76,65 @@ var maxDepth = function (root) {
 
   return count;
 };
+
+const create = (list) => {
+  const tree = { root: new Node(null, []) };
+  let root = tree.root;
+  let children = [root];
+
+  list.forEach((item) => {
+    if (item != null) {
+      if (root.val == null) {
+        root.val = item;
+      } else {
+        const temp = new Node(item, []);
+        root.children.push(temp);
+        children.push(temp);
+      }
+    } else {
+      root = children.shift();
+    }
+  });
+
+  function Node(val, children) {
+    this.val = val;
+    this.children = children;
+  }
+  return tree.root;
+};
+
+var nodes = [1, null, 3, 2, 4, null, 5, 6];
+var root = create(nodes);
+// console.log(JSON.stringify(create(nodes)));
+console.log(maxDepth(root));
+
+var nodes = [
+  1,
+  null,
+  2,
+  3,
+  4,
+  5,
+  null,
+  null,
+  6,
+  7,
+  null,
+  8,
+  null,
+  9,
+  10,
+  null,
+  null,
+  11,
+  null,
+  12,
+  null,
+  13,
+  null,
+  null,
+  14,
+];
+var root = create(nodes);
+// console.log(JSON.stringify(create(root)));
+console.log(maxDepth(root));
