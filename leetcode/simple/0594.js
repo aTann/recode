@@ -43,7 +43,7 @@ var findLHS = function (nums) {
   let ans = 0;
   let begin = 0;
   for (let end = 0; end < nums.length; end += 1) {
-    // 妙哉
+    // 妙哉，滑动窗口
     while (nums[end] - nums[begin] > 1) {
       begin += 1;
     }
