@@ -36,6 +36,7 @@ var postorderTraversal = function (root) {
 // 迭代
 // O(n)/O(n) 数组的空间复杂好像是 n
 // 71ms/38MB
+// [root, right, left] 然后倒回来
 var postorderTraversal = function (root) {
   let nodes = [];
   let lNodes = [];
@@ -77,8 +78,10 @@ var postorderTraversal = function (root) {
 
     root = nodes.pop();
 
-    // 如果上一个处理的是右节点，那可以将当前节点放入
-    if (!root.right || root.right === prev) {
+    if (
+      !root.right || // 无右
+      root.right === prev // 右节点已遍历
+    ) {
       ans.push(root.val);
       prev = root;
       root = null;
@@ -124,6 +127,10 @@ var postorderTraversal = function (root) {
   return ans;
 };
 
+["(1",1,"(2",2,"(4",4,")4",")2","(3",3,")3",")1"]
+
+["(1",1,"(2",2,"()2","(4",4,")4",")2","(3",3,")3",")1"]
+
 // 题解
 // O(n)/O(1)
 // 64ms/38MB
@@ -152,7 +159,7 @@ var postorderTraversal = function (root) {
     }
   }
 
-  records(ans, root)
+  records(ans, root);
 
   return ans;
 };
